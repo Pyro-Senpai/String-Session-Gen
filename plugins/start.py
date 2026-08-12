@@ -2,6 +2,7 @@
 
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.errors import MessageNotModified
 import config
 from database import database as db  # Correctly imports from your Database folder
 
@@ -53,17 +54,23 @@ async def start_handler(client: Client, message: Message):
 
 @Client.on_callback_query(filters.regex("about"))
 async def about_callback(client: Client, callback_query):
-    await callback_query.message.edit_text(
-        text=config.ABOUT_TEXT,
-        reply_markup=get_back_close_keyboard()
-    )
+    try:
+        await callback_query.message.edit_text(
+            text=config.ABOUT_TEXT,
+            reply_markup=get_back_close_keyboard()
+        )
+    except MessageNotModified:
+        await callback_query.answer("You're already viewing the About section!", show_alert=False)
 
 @Client.on_callback_query(filters.regex("help"))
 async def help_callback(client: Client, callback_query):
-    await callback_query.message.edit_text(
-        text=config.HELP_TEXT,
-        reply_markup=get_back_close_keyboard()
-    )
+    try:
+        await callback_query.message.edit_text(
+            text=config.HELP_TEXT,
+            reply_markup=get_back_close_keyboard()
+        )
+    except MessageNotModified:
+        await callback_query.answer("You're already viewing the Help section!", show_alert=False)
 
 @Client.on_callback_query(filters.regex("back"))
 async def back_callback(client: Client, callback_query):
