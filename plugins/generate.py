@@ -3,6 +3,7 @@
 import asyncio
 from pyrogram import Client, filters
 from pyrogram.types import Message
+from pyrogram.errors import SessionPasswordNeeded
 
 @Client.on_message(filters.command("string") & filters.private)
 async def generate_session(client: Client, message: Message):
@@ -58,8 +59,15 @@ async def generate_session(client: Client, message: Message):
 
     try:
         await app.sign_in(phone, sent_code.phone_code_hash, code)
+    except SessionPasswordNeeded:
+        try:
+            pwd_msg = await client.ask(chat_id, "🔒 Please send your 2FA password:", timeout=300)
+            await app.check_password(pwd_msg.text.strip())
+        except Exception as err:
+            await message.reply(f"❌ Wrong password or error: {err}")
+            await app.disconnect()
+            return
     except Exception as e:
-        # If password (2FA) is enabled
         if "SESSION_PASSWORD_NEEDED" in str(e) or "Password" in str(e):
             try:
                 pwd_msg = await client.ask(chat_id, "🔒 Please send your 2FA password:", timeout=300)
@@ -75,19 +83,20 @@ async def generate_session(client: Client, message: Message):
 
     # Export session string
     session_string = await app.export_session_string()
+
+    # Send session to User's Saved Messages using `app` BEFORE disconnecting
+    try:
+        await app.send_message(
+            "me", 
+            f"✨ Here is your session string:\n\n`{session_string}`"
+        )
+    except Exception as err:
+        await message.reply(f"❌ Failed to send session string to Saved Messages: {err}")
+        await app.disconnect()
+        return
+
+    # Disconnect after sending
     await app.disconnect()
 
-    # Send session to Saved Messages
-    sent_msg = await client.send_message(
-        "me", 
-        f"✨ Here is your session string:\n\n`{session_string}`\n\n🗑️ This message will be deleted in 60 seconds."
-    )
-    
+    # Inform user via Bot
     await message.reply("✅ Your session string has been sent to your 'Saved Messages'! 🚀")
-
-    # Delete the message from bot after 60 seconds
-    await asyncio.sleep(60)
-    try:
-        await sent_msg.delete()
-    except Exception:
-        pass
