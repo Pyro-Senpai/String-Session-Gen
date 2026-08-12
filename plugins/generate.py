@@ -96,7 +96,7 @@ async def generate_session(client: Client, message: Message):
         return
         
     # Inform user via Bot
-    await message.reply("<b>✅ Yᴏᴜʀsᴇssɪᴏɴ sᴛʀɪɴɢ ʜᴀs ʙᴇᴇɴ sᴇɴᴛ ᴛɪ ʏᴏᴜʀ 'sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs'! 🚀</b>")
+    await message.reply("<b>✅ Yᴏᴜʀ sᴇssɪᴏɴ sᴛʀɪɴɢ ʜᴀs ʙᴇᴇɴ sᴇɴᴛ ᴛᴏ ʏᴏᴜʀ 'sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs'! 🚀</b>")
 
     await app.disconnect()
 
