@@ -1,6 +1,6 @@
 # (©)Pyro-Senpai
 
-from pyrofog import Client
+from pyrogram import Client
 import config
 
 app = Client(
