@@ -3,7 +3,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import config
-from Database import database as db  # Correctly imports from your Database folder
+from database import database as db  # Correctly imports from your Database folder
 
 def get_start_keyboard():
     return InlineKeyboardMarkup([
