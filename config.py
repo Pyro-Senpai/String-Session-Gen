@@ -10,7 +10,7 @@ API_HASH = os.environ.get("API_HASH", "")
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "")
 
 START_MSG = "👋 Hello! Send /generate to create a Pyrofog String Session."
-START_PIC = ""
+START_PIC = "https://telegra.ph/file/aad055c98c566adfb7dcd-b42f72ff4d1de29e86.jpg"
 
 ABOUT_TEXT = "ℹ️ This is a simple session generator bot built with Pyrofog and Pyromode."
 HELP_TEXT = "❓ Here are the available commands:\n/start - Start the bot\n/generate - Generate a session"
