@@ -85,17 +85,28 @@ async def generate_session(client: Client, message: Message):
     session_string = await app.export_session_string()
     await app.disconnect()
 
-    # Send session string directly in bot chat and delete after 60 seconds
+    # 1. Send permanent copy to Saved Messages (Saved Messages will keep it permanently)
+    try:
+        await client.send_message(
+            chat_id=chat_id,
+            text=f"✨ **Your session string has been sent to your 'Saved Messages'! 🚀:**\n\n`{session_string}`"
+        )
+    except Exception as err:
+        await message.reply(f"❌ Failed to send session string to Saved Messages: {err}")
+        return
+
+    # 2. Send temporary copy to the bot chat that deletes automatically after 60 minutes (3600 seconds)
     try:
         sent_msg = await client.send_message(
             chat_id=chat_id,
-            text=f"✨ Here is your session string:\n\n`{session_string}`\n\n🗑️ This message will be deleted in 60 seconds."
+            text=f"✨ **Here is your session string:**\n\n`{session_string}`\n\n🗑️ **This message will be deleted in 60 minutes.**"
         )
     except Exception as err:
-        await message.reply(f"❌ Failed to send session string: {err}")
+        await message.reply(f"❌ Failed to send session string in bot chat: {err}")
         return
 
-    await asyncio.sleep(60)
+    # Wait for 60 minutes (3600 seconds)
+    await asyncio.sleep(3600)
     try:
         await sent_msg.delete()
     except Exception:
