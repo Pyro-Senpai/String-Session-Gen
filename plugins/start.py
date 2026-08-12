@@ -3,7 +3,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import config
-import db  # Required for db.add_user
+from Database import database as db  # Correctly imports from your Database folder
 
 def get_start_keyboard():
     return InlineKeyboardMarkup([
@@ -21,7 +21,6 @@ async def start_handler(client: Client, message: Message):
     user = message.from_user
     mention = user.mention if user else "User"
     
-    # Add user to database safely
     try:
         await db.add_user(client, message)
     except Exception as e:
@@ -29,7 +28,6 @@ async def start_handler(client: Client, message: Message):
 
     effect_id = int(config.MESSAGE_EFFECT_ID) if hasattr(config, 'MESSAGE_EFFECT_ID') and config.MESSAGE_EFFECT_ID else None
 
-    # Check if START_PIC exists and is not empty
     if hasattr(config, 'START_PIC') and config.START_PIC:
         try:
             await message.reply_photo(
