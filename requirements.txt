@@ -3,3 +3,5 @@ pyromod==1.5
 tgcrypto
 python-dotenv
 aiohttp
+motor
+pymongo
