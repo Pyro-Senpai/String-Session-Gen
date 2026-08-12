@@ -11,7 +11,7 @@ A simple bot to generate Pyrogram/Pyrofork string sessions for your Telegram acc
 
 ## Requirements
 
-- Python 3.9+
+- Python 3.13+
 - Pyrofork
 - Pyromode
 - python-dotenv
