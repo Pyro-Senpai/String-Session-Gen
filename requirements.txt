@@ -2,3 +2,4 @@ pyrofork==2.3.45
 pyromod==1.5
 tgcrypto
 python-dotenv
+aiohttp
