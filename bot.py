@@ -1,5 +1,7 @@
+# (©)Pyro-Senpai
+
 from aiohttp import web
-from pyrofork import Client
+from pyrogram import Client
 import config
 import asyncio
 
