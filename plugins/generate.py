@@ -1,65 +1,92 @@
-from pyrofog import Client, filters
-from pyrofog.types import Message
-from pyrofog.errors import (
-    ApiIdInvalid,
-    PhoneNumberInvalid,
-    PhoneCodeInvalid,
-    PhoneCodeExpired,
-    SessionPasswordNeeded,
-    PasswordHashInvalid
-)
-import config
+# (©)
+import asyncio
+from pyrogram import Client, filters
+from pyrogram.types import Message
 
-@Client.on_message(filters.command("generate") & filters.private)
+@Client.on_message(filters.command("string") & filters.private)
 async def generate_session(client: Client, message: Message):
     chat_id = message.chat.id
     
-    api_id_msg = await client.ask(chat_id, "Please send your API_ID:")
     try:
-        api_id = int(api_id_msg.text)
+        # Ask for API ID
+        api_id_msg = await client.ask(chat_id, "🆔 Please send your API ID:", timeout=300)
+        API_ID = int(api_id_msg.text.strip())
+    except asyncio.TimeoutError:
+        await message.reply("⏳ Time out. Please try again.")
+        return
     except ValueError:
-        return await message.reply("❌ Invalid API ID!")
-
-    api_hash_msg = await client.ask(chat_id, "Please send your API_HASH:")
-    api_hash = api_hash_msg.text.strip()
-
-    phone_msg = await client.ask(chat_id, "Please send your phone number with country code (e.g. +919876543210):")
-    phone_number = phone_msg.text.strip()
-
-    user_client = Client("temp_session", api_id=api_id, api_hash=api_hash)
-    await user_client.connect()
+        await message.reply("❌ Invalid API ID. It must be a number. Please try again.")
+        return
 
     try:
-        code_info = await user_client.send_code(phone_number)
+        # Ask for API Hash
+        api_hash_msg = await client.ask(chat_id, "🔐 Please send your API HASH:", timeout=300)
+        API_HASH = api_hash_msg.text.strip()
+    except asyncio.TimeoutError:
+        await message.reply("⏳ Time out. Please try again.")
+        return
+
+    try:
+        # Ask for Phone Number
+        phone_number = await client.ask(chat_id, "📱 Please send your phone number (e.g., +919876543210):", timeout=300)
+    except asyncio.TimeoutError:
+        await message.reply("⏳ Time out. Please try again.")
+        return
+
+    phone = phone_number.text.strip()
+
+    # Temporary client for generating session
+    app = Client(name="session_generator", api_id=API_ID, api_hash=API_HASH, in_memory=True)
+    await app.connect()
+
+    try:
+        sent_code = await app.send_code(phone)
     except Exception as e:
-        return await message.reply(f"❌ Error occurred: `{e}`")
-
-    otp_msg = await client.ask(chat_id, "Please send the OTP code you received:")
-    otp_code = otp_msg.text.replace(" ", "").strip()
-
-    try:
-        await user_client.sign_in(phone_number, code_info.phone_code_hash, otp_code)
-    except SessionPasswordNeeded:
-        pwd_msg = await client.ask(chat_id, "Please send your Two-Step Verification Password:")
-        password = pwd_msg.text.strip()
-        try:
-            await user_client.check_password(password)
-        except PasswordHashInvalid:
-            return await message.reply("❌ Invalid password!")
-    except (PhoneCodeInvalid, PhoneCodeExpired):
-        return await message.reply("❌ Invalid or expired OTP!")
-
-    string_session = await user_client.export_session_string()
-    await user_client.disconnect()
+        await message.reply(f"❌ An error occurred: {e}")
+        await app.disconnect()
+        return
 
     try:
-        saved_client = Client("saved_session", session_string=string_session, api_id=api_id, api_hash=api_hash)
-        await saved_client.connect()
-        await saved_client.send_message(
-            "me",
-            f"✅ **Your Pyrofog String Session:**\n\n`{string_session}`\n\n⚠️ **Security Alert:** Do not share this with anyone!"
-        )
-        await saved_client.disconnect()
-        await message.reply("✅ String Session generated successfully and sent to your Saved Messages!")
+        code_msg = await client.ask(chat_id, "🔑 Please send the OTP code you received (separate digits with spaces, e.g., 1 2 3 4 5):", timeout=300)
+    except asyncio.TimeoutError:
+        await message.reply("⏳ Time out. Please try again.")
+        await app.disconnect()
+        return
+
+    code = code_msg.text.replace(" ", "").strip()
+
+    try:
+        await app.sign_in(phone, sent_code.phone_code_hash, code)
     except Exception as e:
-        await message.reply(f"⚠️ Session was created, but could not be sent: `{e}`")
+        # If password (2FA) is enabled
+        if "SESSION_PASSWORD_NEEDED" in str(e) or "Password" in str(e):
+            try:
+                pwd_msg = await client.ask(chat_id, "🔒 Please send your 2FA password:", timeout=300)
+                await app.check_password(pwd_msg.text.strip())
+            except Exception as err:
+                await message.reply(f"❌ Wrong password or error: {err}")
+                await app.disconnect()
+                return
+        else:
+            await message.reply(f"❌ Failed to sign in: {e}")
+            await app.disconnect()
+            return
+
+    # Export session string
+    session_string = await app.export_session_string()
+    await app.disconnect()
+
+    # Send session to Saved Messages
+    sent_msg = await client.send_message(
+        "me", 
+        f"✨ Here is your session string:\n\n`{session_string}`\n\n🗑️ This message will be deleted in 60 seconds."
+    )
+    
+    await message.reply("✅ Your session string has been sent to your 'Saved Messages'! 🚀")
+
+    # Delete the message from bot after 60 seconds
+    await asyncio.sleep(60)
+    try:
+        await sent_msg.delete()
+    except Exception:
+        pass
