@@ -20,7 +20,11 @@ def get_back_close_keyboard():
 async def start_handler(client: Client, message: Message):
     user = message.from_user
     await db.add_user(client, message)
-    mention = user.mention if user else "User"
+    if Config.START_PIC:
+        await message.reply_video(Config.START_PIC, caption=Txt.START_TXT.format(user.mention), reply_markup=button)
+    else:
+        await message.reply_text(text=Txt.START_TXT.format(user.mention), reply_markup=button,
+                                 disable_web_page_preview=True)
 
     effect_id = int(config.MESSAGE_EFFECT_ID) if hasattr(config, 'MESSAGE_EFFECT_ID') and config.MESSAGE_EFFECT_ID else None
 
