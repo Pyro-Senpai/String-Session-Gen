@@ -1,6 +1,6 @@
 # (©)Pyro-Senpai
 
-from pyrogram import Client
+from pyrofork import Client
 import config
 
 app = Client(
@@ -13,4 +13,4 @@ app = Client(
 
 if __name__ == "__main__":
     print("Bot is starting...")
-    app.run()
+    app.run(port=config.PORT)
