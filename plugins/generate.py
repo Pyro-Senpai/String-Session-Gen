@@ -83,7 +83,6 @@ async def generate_session(client: Client, message: Message):
 
     # Export session string
     session_string = await app.export_session_string()
-    await app.disconnect()
 
     # 1. Send session to User's Saved Messages using `app` BEFORE disconnecting
     try:
@@ -97,7 +96,9 @@ async def generate_session(client: Client, message: Message):
         return
         
     # Inform user via Bot
-        await message.reply("✅ Your session string has been sent to your 'Saved Messages'! 🚀")
+    await message.reply("✅ Your session string has been sent to your 'Saved Messages'! 🚀")
+
+    await app.disconnect()
 
     # 2. Send temporary copy to the bot chat that deletes automatically after 60 minutes (3600 seconds)
     try:
