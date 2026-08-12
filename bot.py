@@ -1,6 +1,6 @@
 # (©)Pyro-Senpai
 
-from pyrofork import Client
+from pyrogram import Client
 import config
 
 app = Client(
