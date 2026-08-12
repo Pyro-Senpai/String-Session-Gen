@@ -1,0 +1,1 @@
+web: pyrhon3 bot.py
