@@ -1,0 +1,4 @@
+pyrofog==2.3.45
+pyromode==1.5
+tgcrypto
+python-dotenv
