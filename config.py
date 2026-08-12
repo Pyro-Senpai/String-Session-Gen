@@ -15,4 +15,5 @@ START_PIC = ""
 ABOUT_TEXT = "ℹ️ This is a simple session generator bot built with Pyrofog and Pyromode."
 HELP_TEXT = "❓ Here are the available commands:\n/start - Start the bot\n/generate - Generate a session"
 
-MESSAGE_EFFECT_ID = ""
+MESSAGE_EFFECT_ID = "5104841245755180586"
+PORT = int(os.environ.get("PORT", "8080"))
