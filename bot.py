@@ -12,5 +12,5 @@ app = Client(
 )
 
 if __name__ == "__main__":
-    print("Bot is starting...")
-    app.run(port=config.PORT)
+    print("Bot is Started.")
+    app.run()
