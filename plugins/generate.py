@@ -11,28 +11,28 @@ async def generate_session(client: Client, message: Message):
 
     try:
         # Ask for API ID
-        api_id_msg = await client.ask(chat_id, "Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴀᴘɪ ɪᴅ:", timeout=300)
+        api_id_msg = await client.ask(chat_id, "<b>Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴀᴘɪ ɪᴅ:</b>", timeout=300)
         API_ID = int(api_id_msg.text.strip())
     except asyncio.TimeoutError:
-        await message.reply("⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.")
+        await message.reply("<b>⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.</b>")
         return
     except ValueError:
-        await message.reply("❌ Iɴᴠᴀʟɪᴅ ᴀᴘɪ ɪᴅ. Iᴛ ᴍᴜsᴛ ʙᴇ ᴀ ɴᴜᴍʙᴇʀ. Pʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ.")
+        await message.reply("<b>❌ Iɴᴠᴀʟɪᴅ ᴀᴘɪ ɪᴅ. Iᴛ ᴍᴜsᴛ ʙᴇ ᴀ ɴᴜᴍʙᴇʀ. Pʟᴇᴀsᴇ ᴛʀʏ ᴀɢᴀɪɴ.</b>")
         return
 
     try:
         # Ask for API Hash
-        api_hash_msg = await client.ask(chat_id, "Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴀᴘɪ ʜᴀsʜ:", timeout=300)
+        api_hash_msg = await client.ask(chat_id, "<b>Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴀᴘɪ ʜᴀsʜ:</b>", timeout=300)
         API_HASH = api_hash_msg.text.strip()
     except asyncio.TimeoutError:
-        await message.reply("⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.")
+        await message.reply("<b>⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.</b>")
         return
 
     try:
         # Ask for Phone Number
-        phone_number = await client.ask(chat_id, "Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴘʜᴏɴᴇ ɴᴜᴍʙᴇʀ\nɪɴᴄʟᴜᴅᴇ ʏᴏᴜʀ ᴄᴏɴᴛʀʏ ᴄᴏᴅᴇ\nFᴏʀ Exᴀᴍᴘʟᴇ: +919876543210, +13124562345", timeout=300)
+        phone_number = await client.ask(chat_id, "<b>Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴘʜᴏɴᴇ ɴᴜᴍʙᴇʀ\nɪɴᴄʟᴜᴅᴇ ʏᴏᴜʀ ᴄᴏɴᴛʀʏ ᴄᴏᴅᴇ\nFᴏʀ Exᴀᴍᴘʟᴇ: +919876543210, +13124562345</b>", timeout=300)
     except asyncio.TimeoutError:
-        await message.reply("⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.")
+        await message.reply("<b>⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.</b>")
         return
 
     phone = phone_number.text.strip()
@@ -44,14 +44,14 @@ async def generate_session(client: Client, message: Message):
     try:
         sent_code = await app.send_code(phone)
     except Exception as e:
-        await message.reply(f"❌ Aɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ: {e}")
+        await message.reply(f"<b>❌ Aɴ ᴇʀʀᴏʀ ᴏᴄᴄᴜʀʀᴇᴅ: {e}</b>")
         await app.disconnect()
         return
 
     try:
-        code_msg = await client.ask(chat_id, "Pʟᴇᴀsᴇ sᴇɴᴅ ᴛʜᴇ ᴏᴛᴘ ᴄᴏᴅᴇ ʏᴏᴜ ʀᴇᴄᴇɪᴠᴇᴅ (separate digits with spaces, e.g., 1 2 3 4 5):", timeout=300)
+        code_msg = await client.ask(chat_id, "<b>Pʟᴇᴀsᴇ sᴇɴᴅ ᴛʜᴇ ᴏᴛᴘ ᴄᴏᴅᴇ ʏᴏᴜ ʀᴇᴄᴇɪᴠᴇᴅ (separate digits with spaces, e.g., 1 2 3 4 5):</b>", timeout=300)
     except asyncio.TimeoutError:
-        await message.reply("⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.")
+        await message.reply("<b>⏳ Tɪᴍᴇ Oᴜᴛ. Pʟᴇᴀsᴇ Tʀʏ Aɢᴀɪɴ.</b>")
         await app.disconnect()
         return
 
@@ -61,23 +61,23 @@ async def generate_session(client: Client, message: Message):
         await app.sign_in(phone, sent_code.phone_code_hash, code)
     except SessionPasswordNeeded:
         try:
-            pwd_msg = await client.ask(chat_id, "Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴛᴡᴏ-sᴛᴇᴘ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘᴀssᴡᴏʀᴅ:", timeout=300)
+            pwd_msg = await client.ask(chat_id, "<b>Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴛᴡᴏ-sᴛᴇᴘ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘᴀssᴡᴏʀᴅ:</b>", timeout=300)
             await app.check_password(pwd_msg.text.strip())
         except Exception as err:
-            await message.reply(f"❌ Wʀᴏɴɢ ᴘᴀssᴡᴏʀᴅ ᴏʀ ᴇʀʀᴏʀ: {err}")
+            await message.reply(f"<b>❌ Wʀᴏɴɢ ᴘᴀssᴡᴏʀᴅ ᴏʀ ᴇʀʀᴏʀ: {err}</b>")
             await app.disconnect()
             return
     except Exception as e:
         if "SESSION_PASSWORD_NEEDED" in str(e) or "Password" in str(e):
             try:
-                pwd_msg = await client.ask(chat_id, "Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴛᴡᴏ-sᴛᴇᴘ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘᴀssᴡᴏʀᴅ:", timeout=300)
+                pwd_msg = await client.ask(chat_id, "<b>Pʟᴇᴀsᴇ sᴇɴᴅ ʏᴏᴜʀ ᴛᴡᴏ-sᴛᴇᴘ ᴠᴇʀɪғɪᴄᴀᴛɪᴏɴ ᴘᴀssᴡᴏʀᴅ:</b>", timeout=300)
                 await app.check_password(pwd_msg.text.strip())
             except Exception as err:
-                await message.reply(f"❌ Wʀᴏɴɢ ᴘᴀssᴡᴏʀᴅ ᴏʀ ᴇʀʀᴏʀ: {err}")
+                await message.reply(f"<b>❌ Wʀᴏɴɢ ᴘᴀssᴡᴏʀᴅ ᴏʀ ᴇʀʀᴏʀ: {err}</b>")
                 await app.disconnect()
                 return
         else:
-            await message.reply(f"❌ Fᴀɪʟᴇᴅ ᴛᴏ sɪɢɴ ɪɴ: {e}")
+            await message.reply(f"<b>❌ Fᴀɪʟᴇᴅ ᴛᴏ sɪɢɴ ɪɴ: {e}</b>")
             await app.disconnect()
             return
 
@@ -88,15 +88,15 @@ async def generate_session(client: Client, message: Message):
     try:
         await app.send_message(
             "me", 
-            f"✨ Hᴇʀᴇ ɪs ʏᴏᴜʀ sᴇssɪᴏɴ sᴛʀɪɴɢ:\n\n`{session_string}`"
+            f"<b>✨ Hᴇʀᴇ ɪs ʏᴏᴜʀ sᴇssɪᴏɴ sᴛʀɪɴɢ:</b>\n\n`{session_string}`"
         )
     except Exception as err:
-        await message.reply(f"❌ Fᴀɪʟᴇᴅ ᴛᴏ sᴇɴᴅ sᴇssɪᴏɴ sᴛʀɪɴɢ ᴛᴏ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs: {err}")
+        await message.reply(f"<b>❌ Fᴀɪʟᴇᴅ ᴛᴏ sᴇɴᴅ sᴇssɪᴏɴ sᴛʀɪɴɢ ᴛᴏ sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs: {err}</b>")
         await app.disconnect()
         return
         
     # Inform user via Bot
-    await message.reply("✅ Yᴏᴜʀsᴇssɪᴏɴ sᴛʀɪɴɢ ʜᴀs ʙᴇᴇɴ sᴇɴᴛ ᴛɪ ʏᴏᴜʀ 'sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs'! 🚀")
+    await message.reply("<b>✅ Yᴏᴜʀsᴇssɪᴏɴ sᴛʀɪɴɢ ʜᴀs ʙᴇᴇɴ sᴇɴᴛ ᴛɪ ʏᴏᴜʀ 'sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs'! 🚀</b>")
 
     await app.disconnect()
 
@@ -104,10 +104,10 @@ async def generate_session(client: Client, message: Message):
     try:
         sent_msg = await client.send_message(
             chat_id=chat_id,
-            text=f"✨ **Hᴇʀᴇ ɪs ʏᴏᴜʀ sᴇssɪᴏɴ sᴛʀɪɴɢ:**\n\n`{session_string}`\n\n🗑️ **Tʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ 60 ᴍɪɴᴜᴛᴇs. Aɴᴅ ɪᴛ's ᴀʟsᴏ sᴇɴᴅ ᴛᴏ ʙᴇ ʏᴏᴜʀ 'sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs'.**"
+            text=f"✨ **<b>Hᴇʀᴇ ɪs ʏᴏᴜʀ sᴇssɪᴏɴ sᴛʀɪɴɢ:</b>**\n\n`{session_string}`\n\n🗑️ **<b>Tʜɪs ᴍᴇssᴀɢᴇ ᴡɪʟʟ ʙᴇ ᴅᴇʟᴇᴛᴇᴅ ɪɴ 60 ᴍɪɴᴜᴛᴇs. Aɴᴅ ɪᴛ's ᴀʟsᴏ sᴇɴᴅ ᴛᴏ ʙᴇ ʏᴏᴜʀ 'sᴀᴠᴇᴅ ᴍᴇssᴀɢᴇs'</b>.**"
         )
     except Exception as err:
-        await message.reply(f"❌ Fᴀɪʟᴇᴅ ᴛᴏ sᴇɴᴅ sᴇssɪᴏɴ sᴛʀɪɴɢ ɪɴ ʙᴏᴛ ᴄʜᴀᴛ: {err}")
+        await message.reply(f"<b>❌ Fᴀɪʟᴇᴅ ᴛᴏ sᴇɴᴅ sᴇssɪᴏɴ sᴛʀɪɴɢ ɪɴ ʙᴏᴛ ᴄʜᴀᴛ: {err}</b>")
         return
 
     # Wait for 60 minutes (3600 seconds)
