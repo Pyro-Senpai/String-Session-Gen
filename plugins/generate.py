@@ -85,15 +85,19 @@ async def generate_session(client: Client, message: Message):
     session_string = await app.export_session_string()
     await app.disconnect()
 
-    # 1. Send permanent copy to Saved Messages (Saved Messages will keep it permanently)
+    # 1. Send session to User's Saved Messages using `app` BEFORE disconnecting
     try:
-        await client.send_message(
-            chat_id=chat_id,
-            text=f"✨ **Your session string has been sent to your 'Saved Messages'! 🚀:**\n\n`{session_string}`"
+        await app.send_message(
+            "me", 
+            f"✨ Here is your session string:\n\n`{session_string}`"
         )
     except Exception as err:
         await message.reply(f"❌ Failed to send session string to Saved Messages: {err}")
+        await app.disconnect()
         return
+        
+    # Inform user via Bot
+        await message.reply("✅ Your session string has been sent to your 'Saved Messages'! 🚀")
 
     # 2. Send temporary copy to the bot chat that deletes automatically after 60 minutes (3600 seconds)
     try:
