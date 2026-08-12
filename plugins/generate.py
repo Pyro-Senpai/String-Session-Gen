@@ -8,7 +8,7 @@ from pyrogram.errors import SessionPasswordNeeded
 @Client.on_message(filters.command("string") & filters.private)
 async def generate_session(client: Client, message: Message):
     chat_id = message.chat.id
-    
+
     try:
         # Ask for API ID
         api_id_msg = await client.ask(chat_id, "🆔 Please send your API ID:", timeout=300)
@@ -83,20 +83,20 @@ async def generate_session(client: Client, message: Message):
 
     # Export session string
     session_string = await app.export_session_string()
-
-    # Send session to User's Saved Messages using `app` BEFORE disconnecting
-    try:
-        await app.send_message(
-            "me", 
-            f"✨ Here is your session string:\n\n`{session_string}`"
-        )
-    except Exception as err:
-        await message.reply(f"❌ Failed to send session string to Saved Messages: {err}")
-        await app.disconnect()
-        return
-
-    # Disconnect after sending
     await app.disconnect()
 
-    # Inform user via Bot
-    await message.reply("✅ Your session string has been sent to your 'Saved Messages'! 🚀")
+    # Send session string directly in bot chat and delete after 60 seconds
+    try:
+        sent_msg = await client.send_message(
+            chat_id=chat_id,
+            text=f"✨ Here is your session string:\n\n`{session_string}`\n\n🗑️ This message will be deleted in 60 seconds."
+        )
+    except Exception as err:
+        await message.reply(f"❌ Failed to send session string: {err}")
+        return
+
+    await asyncio.sleep(60)
+    try:
+        await sent_msg.delete()
+    except Exception:
+        pass
