@@ -1,3 +1,5 @@
+# (©)Pyro-Senpai
+
 from pyrofog import Client, filters
 from pyrofog.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import config
