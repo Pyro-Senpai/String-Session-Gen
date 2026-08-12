@@ -1,7 +1,7 @@
 # (©)Pyro-Senpai
 
-from pyrofog import Client, filters
-from pyrofog.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import Client, filters
+from pyrogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 import config
 
 def get_start_keyboard():
