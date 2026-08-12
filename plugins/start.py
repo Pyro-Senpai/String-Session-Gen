@@ -15,14 +15,20 @@ def get_back_close_keyboard():
         [InlineKeyboardButton("Back", callback_data="back"), InlineKeyboardButton("Close", callback_data="close")]
     ])
 
-@Client.on_message(filters.command("start") & filters.private)
-async def start_handler(client: Client, message: Message):
-    # Applying message effect using config ID
+@Client.on_callback_query(filters.regex("back"))
+async def back_callback(client: Client, callback_query):
+    user = callback_query.from_user
+    mention = user.mention
     effect_id = int(config.MESSAGE_EFFECT_ID) if hasattr(config, 'MESSAGE_EFFECT_ID') and config.MESSAGE_EFFECT_ID else None
     
+    await callback_query.message.edit_caption(
+        caption=config.START_MSG.format(mention=mention),
+        reply_markup=get_start_keyboard()
+    )
+
     await message.reply_photo(
         photo=config.START_PIC,
-        caption=config.START_MSG,
+        caption=config.START_MSG.format(mention=mention),
         reply_markup=get_start_keyboard(),
         message_effect_id=effect_id
     )
@@ -43,12 +49,14 @@ async def help_callback(client: Client, callback_query):
 
 @Client.on_callback_query(filters.regex("back"))
 async def back_callback(client: Client, callback_query):
+    user = callback_query.from_user
+    mention = user.mention
     effect_id = int(config.MESSAGE_EFFECT_ID) if hasattr(config, 'MESSAGE_EFFECT_ID') and config.MESSAGE_EFFECT_ID else None
     await callback_query.message.delete()
     await client.send_photo(
         chat_id=callback_query.message.chat.id,
         photo=config.START_PIC,
-        caption=config.START_MSG,
+        caption=config.START_MSG.format(mention=mention),
         reply_markup=get_start_keyboard(),
         message_effect_id=effect_id
     )
