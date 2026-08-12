@@ -5,7 +5,7 @@ from pyrogram import Client, filters
 from pyrogram.types import Message
 from pyrogram.errors import SessionPasswordNeeded
 
-@Client.on_message(filters.command("string") & filters.private)
+@Client.on_message(filters.command("generate") & filters.private)
 async def generate_session(client: Client, message: Message):
     chat_id = message.chat.id
 
