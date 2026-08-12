@@ -17,3 +17,7 @@ HELP_TEXT = "<b><blockquote>❓ ʜᴇʀᴇ ᴀʀᴇ ᴛʜᴇ ᴀᴠᴀɪʟᴀʙ�
 
 MESSAGE_EFFECT_ID = "5104841245755180586"
 PORT = int(os.environ.get("PORT", "8080"))
+
+# Database Configuration
+DATABASE_URI = os.environ.get("DATABASE_URI", "")
+DATABASE_NAME = os.environ.get("DATABASE_NAME", "session")
