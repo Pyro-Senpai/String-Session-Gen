@@ -1,3 +1,5 @@
+# (©)Pyro-Senpai
+
 from pyrofog import Client
 import config
 
