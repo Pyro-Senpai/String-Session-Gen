@@ -3,7 +3,6 @@
 import motor.motor_asyncio
 import config
 
-# Initialize MongoDB client
 dbclient = motor.motor_asyncio.AsyncIOMotorClient(config.DATABASE_URI)
 database = dbclient[config.DATABASE_NAME]
 user_data = database['users']
