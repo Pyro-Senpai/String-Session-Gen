@@ -1,7 +1,7 @@
 # Session Generator Bot
 
 <p align="center">
-  <img src="உங்கள் படத்தின் URL" alt="Session Generator Bot">
+  <img src="https://telegra.ph/file/aad055c98c566adfb7dcd-b42f72ff4d1de29e86.jpg" alt="Session Generator Bot">
 </p>
 
 ## Hey There, This is Session Generator Bot! 🚀
