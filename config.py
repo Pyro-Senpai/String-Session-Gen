@@ -13,7 +13,7 @@ START_MSG = "<b>💖 ʜᴇʏ {mention}! 🥀,</b>\n<b><blockquote>ɪ ᴄᴀɴ ʜ
 START_PIC = "https://telegra.ph/file/aad055c98c566adfb7dcd-b42f72ff4d1de29e86.jpg"
 
 ABOUT_TEXT = "<b><blockquote>🌀 ᴛʜɪs ɪs ᴀ sɪᴍᴘʟᴇ ᴘʏʀᴏɢʀᴀᴍ sᴛʀɪɴɢ sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴏʀ boᴛ.</blockquote></b>"
-HELP_TEXT = "❓ ʜᴇʀᴇ ᴀʀᴇ ᴛʜᴇ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs:\n/start - sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ\n/string - ɢᴇɴᴇʀᴀᴛᴇ ᴀ sᴛʀɪɴɢ sᴇssɪᴏɴ"
+HELP_TEXT = "<b><blockquote>❓ ʜᴇʀᴇ ᴀʀᴇ ᴛʜᴇ ᴀᴠᴀɪʟᴀʙʟᴇ ᴄᴏᴍᴍᴀɴᴅs:\n/start - sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ\n/string - ɢᴇɴᴇʀᴀᴛᴇ ᴀ sᴛʀɪɴɢ sᴇssɪᴏɴ<blockquote></b>"
 
 MESSAGE_EFFECT_ID = "5104841245755180586"
 PORT = int(os.environ.get("PORT", "8080"))
