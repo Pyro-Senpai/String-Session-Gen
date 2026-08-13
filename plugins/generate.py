@@ -8,7 +8,7 @@ from pyrogram.errors import SessionPasswordNeeded
 @Client.on_message(filters.command("generate") & filters.private)
 async def generate_command(client: Client, message: Message):
     keyboard = InlineKeyboardMarkup([
-        [InlineKeyboardButton("Gᴇɴᴇʀᴀᴛᴇ Sᴛʀɪɴɢ Sᴇssɪᴏɴ #success", callback_data="start_session")]
+        [InlineKeyboardButton("Gᴇɴᴇʀᴀᴛᴇ Sᴛʀɪɴɢ Sᴇssɪᴏɴ", callback_data="start_session")]
     ])
     await message.reply(
         "<b>Cʟɪᴄᴋ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ʙᴇʟᴏᴡ ᴛᴏ sᴛᴀʀᴛ ɢᴇɴᴇʀᴀᴛɪɴɢ ʏᴏᴜʀ sᴛʀɪɴɢ sᴇssɪᴏɴ:</b>",
