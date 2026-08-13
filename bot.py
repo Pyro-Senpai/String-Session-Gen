@@ -1,6 +1,6 @@
 # (©)Pyro-Senpai
 
-import monkeypatch
+from plugins import monkeypatch
 from aiohttp import web
 from pyrogram import Client
 import config
