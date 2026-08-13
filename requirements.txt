@@ -5,3 +5,4 @@ python-dotenv
 aiohttp
 motor
 pymongo
+hydrogram
