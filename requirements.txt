@@ -5,4 +5,4 @@ python-dotenv
 aiohttp
 motor
 pymongo
-hydrogram
+git+https://github.com/hydrogram/hydrogram.git
