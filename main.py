@@ -12,11 +12,11 @@ from hydrogram.raw import types as raw_types
 # Direct style parameter support ke liye init patch
 original_btn_init = InlineKeyboardButton.__init__
 
-def patched_btn_init(self, text: str, *args, style: str = None, **kwargs):
-    original_btn_init(self, text, *args, **kwargs)
+def patched_btn_init(self, *args, style=None, **kwargs):
+    original_btn_init(self, *args, **kwargs)
     self.style = style
 
-InlineKeyboardButton.init = patched_btn_init
+InlineKeyboardButton.__init__ = patched_btn_init
 
 # Styles apply karne aur raw attributes assign karne ke liye write patch
 original_btn_write = InlineKeyboardButton.write
