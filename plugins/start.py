@@ -6,15 +6,49 @@ from pyrogram.errors import MessageNotModified
 import config
 from database import database as db  # Correctly imports from your Database folder
 
+# --- MONKEY PATCH START (Pyrogram InlineKeyboardButton style support) ---
+_original_init = InlineKeyboardButton.__init__
+_original_write = getattr(InlineKeyboardButton, "to_dict", None) or getattr(InlineKeyboardButton, "write", None)
+
+def _patched_init(self, *args, **kwargs):
+    # Extract our custom 'style' argument if present (e.g., 'danger', 'primary', 'success')
+    self.style = kwargs.pop("style", None)
+    _original_init(self, *args, **kwargs)
+
+def _patched_to_dict(self, *args, **kwargs):
+    # Call the original serialization method
+    data = _original_write(self, *args, **kwargs)
+    # Inject the style field if it was specified on the button
+    if getattr(self, "style", None):
+        data["style"] = self.style
+    return data
+
+# Apply the global monkey-patches to Pyrogram's InlineKeyboardButton
+InlineKeyboardButton.__init__ = _patched_init
+
+if hasattr(InlineKeyboardButton, "to_dict"):
+    InlineKeyboardButton.to_dict = _patched_to_dict
+elif hasattr(InlineKeyboardButton, "write"):
+    InlineKeyboardButton.write = _patched_to_dict
+# --- MONKEY PATCH END ---
+
 def get_start_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("About", callback_data="about"), InlineKeyboardButton("Help", callback_data="help")],
-        [InlineKeyboardButton("Close", callback_data="close")]
+        [
+            InlineKeyboardButton("About", callback_data="about", style="primary"), 
+            InlineKeyboardButton("Help", callback_data="help", style="success")
+        ],
+        [
+            InlineKeyboardButton("Close", callback_data="close", style="danger")
+        ]
     ])
 
 def get_back_close_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("Back", callback_data="back"), InlineKeyboardButton("Close", callback_data="close")]
+        [
+            InlineKeyboardButton("Back", callback_data="back", style="primary"), 
+            InlineKeyboardButton("Close", callback_data="close", style="danger")
+        ]
     ])
 
 @Client.on_message(filters.command("start") & filters.private)
