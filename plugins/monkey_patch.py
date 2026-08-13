@@ -1,6 +1,5 @@
 # (©)Pyro-Senpai
 
-
 import sys
 import hydrogram
 from hydrogram.raw import types as raw_types
