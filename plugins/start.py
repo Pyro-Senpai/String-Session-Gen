@@ -8,7 +8,7 @@ from database import database as db  # Correctly imports from your Database fold
 
 def get_start_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("Aʙᴏᴜᴛ #success", callback_data="about"), InlineKeyboardButton("Hᴇʟᴘ", callback_data="help")],
+        [InlineKeyboardButton("Aʙᴏᴜᴛ", callback_data="about"), InlineKeyboardButton("Hᴇʟᴘ", callback_data="help")],
         [InlineKeyboardButton("Cʟᴏsᴇ", callback_data="close")]
     ])
 
