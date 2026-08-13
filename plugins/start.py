@@ -8,13 +8,13 @@ from database import database as db  # Correctly imports from your Database fold
 
 def get_start_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("Aʙᴏᴜᴛ #primary", callback_data="about"), InlineKeyboardButton("Hᴇʟᴘ #success", callback_data="help")],
-        [InlineKeyboardButton("Cʟᴏsᴇ #danger", callback_data="close")]
+        [InlineKeyboardButton("Aʙᴏᴜᴛ", callback_data="about"), InlineKeyboardButton("Hᴇʟᴘ", callback_data="help")],
+        [InlineKeyboardButton("Cʟᴏsᴇ", callback_data="close")]
     ])
 
 def get_back_close_keyboard():
     return InlineKeyboardMarkup([
-        [InlineKeyboardButton("Bᴀᴄᴋ #primary", callback_data="back"), InlineKeyboardButton("Cʟᴏsᴇ #danger", callback_data="close")]
+        [InlineKeyboardButton("Bᴀᴄᴋ", callback_data="back"), InlineKeyboardButton("Cʟᴏsᴇ", callback_data="close")]
     ])
 
 @Client.on_message(filters.command("start") & filters.private)
